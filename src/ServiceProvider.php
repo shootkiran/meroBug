@@ -31,16 +31,10 @@ class ServiceProvider extends BaseServiceProvider
             $loader->alias('MeroBug', 'MeroBug\Facade');
         }
 
-        // Register commands
-        $this->commands([
-            TestCommand::class,
-        ]);
-
         // Map any routes
-        $this->mapMeroBugApiRoutes();
+        $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
+        $this->loadMigrationsFrom(__DIR__.'/../migrations');
 
-        // Create an alias to the merobug-js-client.blade.php include
-        Blade::include('merobug::merobug-js-client', 'merobugJavaScriptClient');
     }
 
     /**
