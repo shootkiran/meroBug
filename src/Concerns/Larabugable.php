@@ -1,6 +1,6 @@
 <?php
 
-namespace LaraBug\Concerns;
+namespace MeroBug\Concerns;
 
 interface Larabugable
 {

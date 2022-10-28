@@ -1,53 +1,48 @@
 <p align="center">
-    <a href="https://www.larabug.com" target="_blank"><img width="130" src="https://www.larabug.com/images/larabug-logo-small.png"></a>
+    <a href="https://www.merobug.com" target="_blank"><img width="130" src="https://www.merobug.com/images/merobug-logo-small.png"></a>
 </p>
 
-# LaraBug
-Laravel 6.x/7.x/8.x/9.x package for logging errors to [larabug.com](https://www.larabug.com)
-
-[![Software License](https://poser.pugx.org/larabug/larabug/license.svg)](LICENSE.md)
-[![Latest Version on Packagist](https://poser.pugx.org/larabug/larabug/v/stable.svg)](https://packagist.org/packages/larabug/larabug)
-[![Build Status](https://github.com/larabug/larabug/workflows/tests/badge.svg)](https://github.com/larabug/larabug/actions)
-[![Total Downloads](https://poser.pugx.org/larabug/larabug/d/total.svg)](https://packagist.org/packages/larabug/larabug)
+# MeroBug
+Laravel 6.x/7.x/8.x/9.x package for logging errors to database
 
 ## Installation on laravel
 You can install the package through Composer.
 ```bash
-composer require larabug/larabug
+composer require shootkiran/merobug
 ```
 
 Then publish the config and migration file of the package using the vendor publish command.
 ```bash
-php artisan vendor:publish --provider="LaraBug\ServiceProvider"
+php artisan vendor:publish --provider="MeroBug\ServiceProvider"
 ```
-And adjust config file (`config/larabug.php`) with your desired settings.
+And adjust config file (`config/merobug.php`) with your desired settings.
 
-Note: by default only production environments will report errors. To modify this edit your LaraBug configuration.
+Note: by default only production environments will report errors. To modify this edit your MeroBug configuration.
 
 ## Installation on lumen
 You can install the package through Composer.
 ```bash
-composer require larabug/larabug
+composer require shootkiran/merobug
 ```
 
-Copy the config file (`larabug.php`) to lumen config directory.
+Copy the config file (`merobug.php`) to lumen config directory.
 ```bash
-php -r "file_exists('config/') || mkdir('config/'); copy('vendor/larabug/larabug/config/larabug.php', 'config/larabug.php');"
+php -r "file_exists('config/') || mkdir('config/'); copy('vendor/merobug/merobug/config/merobug.php', 'config/merobug.php');"
 ```
-And adjust config file (`config/larabug.php`) with your desired settings.
+And adjust config file (`config/merobug.php`) with your desired settings.
 
 In `bootstrap/app.php` you will need to:
 - Uncomment this line:
     ```php
     $app->withFacades();
     ```
-- Register the larabug config file:
+- Register the merobug config file:
     ```php
-    $app->configure('larabug');
+    $app->configure('merobug');
     ```
-- Register larabug service provider:
+- Register merobug service provider:
     ```php
-    $app->register(LaraBug\ServiceProvider::class);
+    $app->register(MeroBug\ServiceProvider::class);
     ```
 
 ## Configuration variables
@@ -60,15 +55,15 @@ LB_PROJECT_KEY=
 
 `LB_PROJECT_KEY` is your project API key which you've received when creating a project.
 
-Get the variables at [larabug.com](https://www.larabug.com)
+Get the variables at [merobug.com](https://www.merobug.com)
 
 ## Reporting unhandled exceptions
-You can use LaraBug as a log-channel by adding the following config to the `channels` section in `config/logging.php`:
+You can use MeroBug as a log-channel by adding the following config to the `channels` section in `config/logging.php`:
 ```php
 'channels' => [
     // ...
-    'larabug' => [
-        'driver' => 'larabug',
+    'merobug' => [
+        'driver' => 'merobug',
     ],
 ],
 ```
@@ -77,7 +72,7 @@ After that you can add it to the stack section:
 'channels' => [
     'stack' => [
         'driver' => 'stack',
-        'channels' => ['single', 'larabug'],
+        'channels' => ['single', 'merobug'],
     ],
     //...
 ],
@@ -90,4 +85,4 @@ php -r "file_exists('config/') || mkdir('config/'); copy('vendor/laravel/lumen-f
 ```
 
 ## License
-The LaraBug package is open source software licensed under the [license MIT](http://opensource.org/licenses/MIT)
+The MeroBug package is open source software licensed under the [license MIT](http://opensource.org/licenses/MIT)

@@ -1,9 +1,9 @@
 <?php
 
-namespace LaraBug;
+namespace MeroBug;
 
 use Throwable;
-use LaraBug\Http\Client;
+use MeroBug\Http\Client;
 use Illuminate\Support\Str;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\App;
@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Session;
 
-class LaraBug
+class MeroBug
 {
     /** @var Client */
     private $client;
@@ -31,7 +31,7 @@ class LaraBug
 
         $this->blacklist = array_map(function ($blacklist) {
             return strtolower($blacklist);
-        }, config('larabug.blacklist', []));
+        }, config('merobug.blacklist', []));
     }
 
     /**
@@ -64,7 +64,7 @@ class LaraBug
             $data['line'] = $customData['line'];
             $data['class'] = null;
 
-            $count = config('larabug.lines_count');
+            $count = config('merobug.lines_count');
 
             if ($count > 50) {
                 $count = 12;
@@ -103,7 +103,7 @@ class LaraBug
             $this->setLastExceptionId($response->id);
         }
 
-        if (config('larabug.sleep') !== 0) {
+        if (config('merobug.sleep') !== 0) {
             $this->addExceptionToSleep($data);
         }
 
@@ -115,11 +115,11 @@ class LaraBug
      */
     public function isSkipEnvironment()
     {
-        if (count(config('larabug.environments')) == 0) {
+        if (count(config('merobug.environments')) == 0) {
             return true;
         }
 
-        if (in_array(App::environment(), config('larabug.environments'))) {
+        if (in_array(App::environment(), config('merobug.environments'))) {
             return false;
         }
 
@@ -135,7 +135,7 @@ class LaraBug
     }
 
     /**
-     * Get the last exception id given to us by the larabug API.
+     * Get the last exception id given to us by the merobug API.
      * @return string|null
      */
     public function getLastExceptionId()
@@ -160,7 +160,7 @@ class LaraBug
         $data['line'] = $exception->getLine();
         $data['file'] = $exception->getFile();
         $data['class'] = get_class($exception);
-        $data['release'] = config('larabug.release', null);
+        $data['release'] = config('merobug.release', null);
         $data['storage'] = [
             'SERVER' => [
                 'USER' => Request::server('USER'),
@@ -178,7 +178,7 @@ class LaraBug
 
         $data['storage'] = array_filter($data['storage']);
 
-        $count = config('larabug.lines_count');
+        $count = config('merobug.lines_count');
 
         if ($count > 50) {
             $count = 12;
@@ -197,7 +197,7 @@ class LaraBug
         $data['executor'] = array_filter($data['executor']);
 
         // Get project version
-        $data['project_version'] = config('larabug.project_version', null);
+        $data['project_version'] = config('merobug.project_version', null);
 
         // to make symfony exception more readable
         if ($data['class'] == 'Symfony\Component\Debug\Exception\FatalErrorException') {
@@ -291,7 +291,7 @@ class LaraBug
      */
     public function isSkipException($exceptionClass)
     {
-        return in_array($exceptionClass, config('larabug.except'));
+        return in_array($exceptionClass, config('merobug.except'));
     }
 
     /**
@@ -300,7 +300,7 @@ class LaraBug
      */
     public function isSleepingException(array $data)
     {
-        if (config('larabug.sleep', 0) == 0) {
+        if (config('merobug.sleep', 0) == 0) {
             return false;
         }
 
@@ -313,7 +313,7 @@ class LaraBug
      */
     private function createExceptionString(array $data)
     {
-        return 'larabug.' . Str::slug($data['host'] . '_' . $data['method'] . '_' . $data['exception'] . '_' . $data['line'] . '_' . $data['file'] . '_' . $data['class']);
+        return 'merobug.' . Str::slug($data['host'] . '_' . $data['method'] . '_' . $data['exception'] . '_' . $data['line'] . '_' . $data['file'] . '_' . $data['class']);
     }
 
     /**
@@ -337,7 +337,7 @@ class LaraBug
             /** @var \Illuminate\Contracts\Auth\Authenticatable $user */
             $user = auth()->user();
 
-            if ($user instanceof \LaraBug\Concerns\Larabugable) {
+            if ($user instanceof \MeroBug\Concerns\Larabugable) {
                 return $user->toLarabug();
             }
 
@@ -357,6 +357,6 @@ class LaraBug
     {
         $exceptionString = $this->createExceptionString($data);
 
-        return Cache::put($exceptionString, $exceptionString, config('larabug.sleep'));
+        return Cache::put($exceptionString, $exceptionString, config('merobug.sleep'));
     }
 }

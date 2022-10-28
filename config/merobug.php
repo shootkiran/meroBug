@@ -34,7 +34,7 @@ return [
     | Key filtering
     |--------------------------------------------------------------------------
     |
-    | Filter out these variables before sending them to LaraBug
+    | Filter out these variables before sending them to MeroBug
     |
     */
 

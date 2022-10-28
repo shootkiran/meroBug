@@ -1,9 +1,9 @@
 <?php
 
-namespace LaraBug;
+namespace MeroBug;
 
 use Monolog\Logger;
-use LaraBug\Commands\TestCommand;
+use MeroBug\Commands\TestCommand;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
@@ -18,17 +18,17 @@ class ServiceProvider extends BaseServiceProvider
         // Publish configuration file
         if (function_exists('config_path')) {
             $this->publishes([
-                __DIR__ . '/../config/larabug.php' => config_path('larabug.php'),
+                __DIR__ . '/../config/merobug.php' => config_path('merobug.php'),
             ]);
         }
 
         // Register views
-        $this->app['view']->addNamespace('larabug', __DIR__ . '/../resources/views');
+        $this->app['view']->addNamespace('merobug', __DIR__ . '/../resources/views');
 
         // Register facade
         if (class_exists(\Illuminate\Foundation\AliasLoader::class)) {
             $loader = \Illuminate\Foundation\AliasLoader::getInstance();
-            $loader->alias('LaraBug', 'LaraBug\Facade');
+            $loader->alias('MeroBug', 'MeroBug\Facade');
         }
 
         // Register commands
@@ -37,10 +37,10 @@ class ServiceProvider extends BaseServiceProvider
         ]);
 
         // Map any routes
-        $this->mapLaraBugApiRoutes();
+        $this->mapMeroBugApiRoutes();
 
-        // Create an alias to the larabug-js-client.blade.php include
-        Blade::include('larabug::larabug-js-client', 'larabugJavaScriptClient');
+        // Create an alias to the merobug-js-client.blade.php include
+        Blade::include('merobug::merobug-js-client', 'merobugJavaScriptClient');
     }
 
     /**
@@ -48,32 +48,32 @@ class ServiceProvider extends BaseServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/larabug.php', 'larabug');
+        $this->mergeConfigFrom(__DIR__ . '/../config/merobug.php', 'merobug');
 
-        $this->app->singleton('larabug', function ($app) {
-            return new LaraBug(new \LaraBug\Http\Client(
-                config('larabug.login_key', 'login_key'),
-                config('larabug.project_key', 'project_key')
+        $this->app->singleton('merobug', function ($app) {
+            return new MeroBug(new \MeroBug\Http\Client(
+                config('merobug.login_key', 'login_key'),
+                config('merobug.project_key', 'project_key')
             ));
         });
 
         if ($this->app['log'] instanceof \Illuminate\Log\LogManager) {
-            $this->app['log']->extend('larabug', function ($app, $config) {
-                $handler = new \LaraBug\Logger\LaraBugHandler(
-                    $app['larabug']
+            $this->app['log']->extend('merobug', function ($app, $config) {
+                $handler = new \MeroBug\Logger\MeroBugHandler(
+                    $app['merobug']
                 );
 
-                return new Logger('larabug', [$handler]);
+                return new Logger('merobug', [$handler]);
             });
         }
     }
 
-    protected function mapLaraBugApiRoutes()
+    protected function mapMeroBugApiRoutes()
     {
         Route::group(
             [
-                'namespace' => '\LaraBug\Http\Controllers',
-                'prefix' => 'larabug-api'
+                'namespace' => '\MeroBug\Http\Controllers',
+                'prefix' => 'merobug-api'
             ],
             function ($router) {
                 require __DIR__ . '/../routes/api.php';

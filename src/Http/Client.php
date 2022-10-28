@@ -1,6 +1,6 @@
 <?php
 
-namespace LaraBug\Http;
+namespace MeroBug\Http;
 
 use GuzzleHttp\ClientInterface;
 
@@ -35,18 +35,18 @@ class Client
     public function report($exception)
     {
         try {
-            return $this->getGuzzleHttpClient()->request('POST', config('larabug.server'), [
+            return $this->getGuzzleHttpClient()->request('POST', config('merobug.server'), [
                 'headers' => [
                     'Authorization' => 'Bearer '.$this->login,
                     'Content-Type' => 'application/json',
                     'Accept' => 'application/json',
-                    'User-Agent' => 'LaraBug-Package'
+                    'User-Agent' => 'MeroBug-Package'
                 ],
                 'json' => array_merge([
                     'project' => $this->project,
                     'additional' => [],
                 ], $exception),
-                'verify' => config('larabug.verify_ssl'),
+                'verify' => config('merobug.verify_ssl'),
             ]);
         } catch (\GuzzleHttp\Exception\RequestException $e) {
             return $e->getResponse();

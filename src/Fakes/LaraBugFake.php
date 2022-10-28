@@ -1,10 +1,10 @@
 <?php
 
-namespace LaraBug\Fakes;
+namespace MeroBug\Fakes;
 
 use PHPUnit\Framework\Assert as PHPUnit;
 
-class LaraBugFake extends \LaraBug\LaraBug
+class MeroBugFake extends \MeroBug\MeroBug
 {
     /** @var array */
     public $exceptions = [];

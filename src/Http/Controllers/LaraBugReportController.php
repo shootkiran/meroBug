@@ -1,10 +1,10 @@
 <?php
 
-namespace LaraBug\Http\Controllers;
+namespace MeroBug\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class LaraBugReportController
+class MeroBugReportController
 {
     /**
      * @param Request $request
@@ -12,8 +12,8 @@ class LaraBugReportController
      */
     public function report(Request $request)
     {
-        /** @var \LaraBug\LaraBug $laraBug */
-        $laraBug = app('larabug');
+        /** @var \MeroBug\MeroBug $laraBug */
+        $laraBug = app('merobug');
 
         $laraBug->handle(
             new \ErrorException($request->input('message')),

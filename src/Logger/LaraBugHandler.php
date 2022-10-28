@@ -1,23 +1,23 @@
 <?php
 
-namespace LaraBug\Logger;
+namespace MeroBug\Logger;
 
 use Throwable;
 use Monolog\Logger;
-use LaraBug\LaraBug;
+use MeroBug\MeroBug;
 use Monolog\Handler\AbstractProcessingHandler;
 
-class LaraBugHandler extends AbstractProcessingHandler
+class MeroBugHandler extends AbstractProcessingHandler
 {
-    /** @var LaraBug */
+    /** @var MeroBug */
     protected $laraBug;
 
     /**
-     * @param LaraBug $laraBug
+     * @param MeroBug $laraBug
      * @param int $level
      * @param bool $bubble
      */
-    public function __construct(LaraBug $laraBug, $level = Logger::ERROR, bool $bubble = true)
+    public function __construct(MeroBug $laraBug, $level = Logger::ERROR, bool $bubble = true)
     {
         $this->laraBug = $laraBug;
 
