@@ -3,6 +3,7 @@
 namespace MeroBug\Http\Controllers;
 
 use Illuminate\Http\Request;
+use MeroBug\Models\MeroBug;
 
 class MeroBugReportController
 {
@@ -10,23 +11,12 @@ class MeroBugReportController
      * @param Request $request
      * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
-    public function report(Request $request)
+    public function index()
     {
-        /** @var \MeroBug\MeroBug $laraBug */
-        $laraBug = app('merobug');
-
-        $laraBug->handle(
-            new \ErrorException($request->input('message')),
-            'javascript',
-            [
-                'file' => $request->input('file'),
-                'line' => $request->input('line'),
-                'message' => $request->input('message'),
-                'stack' => $request->input('stack'),
-                'url' => $request->input('url'),
-            ]
-        );
-
-        return response('ok', 200);
+        dd("HOME COMING SOON");
+    }
+     public function show(MeroBug $meroBug)
+    {
+        dd("SHow $merobug->id COMING SOON");
     }
 }

@@ -73,10 +73,10 @@ class ServiceProvider extends BaseServiceProvider
         Route::group(
             [
                 'namespace' => '\MeroBug\Http\Controllers',
-                'prefix' => 'merobug-api'
+                'prefix' => 'merobug'
             ],
             function ($router) {
-                require __DIR__ . '/../routes/api.php';
+                require __DIR__ . '/../routes/web.php';
             }
         );
     }
