@@ -1,6 +1,6 @@
 {
-    "name": "larabug/larabug",
-    "description": "Laravel 6.x/7.x/8.x/9.x bug notifier",
+    "name": "shootkiran/merobug",
+    "description": "Laravel 6.x/7.x/8.x/9.x bug save to database.modified from larabug",
     "keywords": [
         "laravel",
         "log",
@@ -19,12 +19,12 @@
     },
     "autoload": {
         "psr-4": {
-            "LaraBug\\": "src/"
+            "MeroBug\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "LaraBug\\Tests\\": "tests"
+            "MeroBug\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -35,7 +35,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "LaraBug\\ServiceProvider"
+                "MeroBug\\ServiceProvider"
             ]
         }
     },
@@ -44,9 +44,9 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Dennis Smink",
-            "email": "dennissmink@gmail.com",
-            "homepage": "http://www.dennissmink.nl",
+            "name": "Kiran Shrestha",
+            "email": "shootkiran@gmail.com",
+            "homepage": "http://www.facebook.com",
             "role": "Owner"
         }
     ]
