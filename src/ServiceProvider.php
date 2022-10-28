@@ -31,8 +31,6 @@ class ServiceProvider extends BaseServiceProvider
             $loader->alias('MeroBug', 'MeroBug\Facade');
         }
 
-        // Map any routes
-        $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
         $this->loadMigrationsFrom(__DIR__.'/../migrations');
 
     }
@@ -59,16 +57,5 @@ class ServiceProvider extends BaseServiceProvider
         }
     }
 
-    protected function mapMeroBugApiRoutes()
-    {
-        Route::group(
-            [
-                'namespace' => '\MeroBug\Http\Controllers',
-                'prefix' => 'merobug'
-            ],
-            function ($router) {
-                require __DIR__ . '/../routes/web.php';
-            }
-        );
-    }
+   
 }

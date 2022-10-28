@@ -1,6 +1,28 @@
 <?php
 
 return [
+    /*
+    |--------------------------------------------------------------------------
+    | Environment setting
+    |--------------------------------------------------------------------------
+    |
+    | This setting determines if the exception should be send over or not.
+    |
+    */
+
+    'environments' => [
+        'production',
+    ],
+    /*
+    |--------------------------------------------------------------------------
+    | Lines near exception
+    |--------------------------------------------------------------------------
+    |
+    | How many lines to show near exception line. The more you specify the bigger
+    | the displayed code will be. Max value can be 50, will be defaulted to
+    | 12 if higher than 50 automatically.
+    |
+    */
 
 
     'lines_count' => 12,

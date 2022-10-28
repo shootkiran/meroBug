@@ -20,7 +20,7 @@ class Facade extends \Illuminate\Support\Facades\Facade
      */
     public static function fake()
     {
-        static::swap(new MeroBugFake(new Client('login_key', 'project_key')));
+        static::swap(new MeroBugFake());
     }
 
     /**
