@@ -19,44 +19,6 @@ And adjust config file (`config/merobug.php`) with your desired settings.
 
 Note: by default only production environments will report errors. To modify this edit your MeroBug configuration.
 
-## Installation on lumen
-You can install the package through Composer.
-```bash
-composer require shootkiran/merobug
-```
-
-Copy the config file (`merobug.php`) to lumen config directory.
-```bash
-php -r "file_exists('config/') || mkdir('config/'); copy('vendor/merobug/merobug/config/merobug.php', 'config/merobug.php');"
-```
-And adjust config file (`config/merobug.php`) with your desired settings.
-
-In `bootstrap/app.php` you will need to:
-- Uncomment this line:
-    ```php
-    $app->withFacades();
-    ```
-- Register the merobug config file:
-    ```php
-    $app->configure('merobug');
-    ```
-- Register merobug service provider:
-    ```php
-    $app->register(MeroBug\ServiceProvider::class);
-    ```
-
-## Configuration variables
-All that is left to do is to define two env configuration variables.
-```
-LB_KEY=
-LB_PROJECT_KEY=
-```
-`LB_KEY` is your profile key which authorises your account to the API.
-
-`LB_PROJECT_KEY` is your project API key which you've received when creating a project.
-
-Get the variables at [merobug.com](https://www.merobug.com)
-
 ## Reporting unhandled exceptions
 You can use MeroBug as a log-channel by adding the following config to the `channels` section in `config/logging.php`:
 ```php
