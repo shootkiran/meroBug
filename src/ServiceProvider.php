@@ -51,10 +51,7 @@ class ServiceProvider extends BaseServiceProvider
         $this->mergeConfigFrom(__DIR__ . '/../config/merobug.php', 'merobug');
 
         $this->app->singleton('merobug', function ($app) {
-            return new MeroBug(new \MeroBug\Http\Client(
-                config('merobug.login_key', 'login_key'),
-                config('merobug.project_key', 'project_key')
-            ));
+            return new MeroBug();
         });
 
         if ($this->app['log'] instanceof \Illuminate\Log\LogManager) {
