@@ -16,9 +16,26 @@ class CreateBugsTable extends Migration
         Schema::create('mero_bugs', function (Blueprint $table) {
             $table->id();
             $table->text('user')->nullable();
-            $table->string('project')->nullable();
-            $table->text('exception')->nullable();
-            $table->text('additional')->nullable();
+            $table->string('environment');
+            $table->string('host');
+            $table->string('method');
+            $table->text('fullUrl');
+            $table->text('exception');
+            $table->text('error');
+            $table->integer('line');
+            $table->string('file');
+            $table->string('class');
+            $table->string('release')->nullable();
+            $table->text('storage');
+            $table->text('executor');
+            $table->text('project_version')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+        }); 
+        Schema::create('mero_bugs_fixes', function (Blueprint $table) {
+            $table->id();
+            $table->string('exception');
+            $table->integer('status')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -31,6 +48,7 @@ class CreateBugsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bugs');
+        Schema::dropIfExists('mero_bugs');
+        Schema::dropIfExists('mero_bugs_fixes');
     }
 }

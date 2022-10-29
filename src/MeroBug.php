@@ -3,7 +3,6 @@
 namespace MeroBug;
 
 use Throwable;
-use MeroBug\Http\Client;
 use Illuminate\Support\Str;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\App;
@@ -308,11 +307,23 @@ class MeroBug
      * @param $exception
      * @return \GuzzleHttp\Promise\PromiseInterface|\Psr\Http\Message\ResponseInterface|null
      */
-    private function logError($exception)
+    private function logError($data)
     {
         return MeroBugModel::create([
             'user' => json_encode($this->getUser()),
-            'exception'=>json_encode($exception),
+            'environment'=>$data['environment'],
+            'host'=>$data['host'],
+            'method'=>$data['method'],
+            'fullUrl'=>$data['fullUrl'],
+            'exception'=>$data['exception'],
+            'error'=>$data['error'],
+            'line'=>$data['line'],
+            'file'=>$data['file'],
+            'class'=>$data['class'],
+            'release'=>$data['release'],
+            'storage'=>json_encode($data['storage']),
+            'executor'=>json_encode($data['executor']),
+            'project_version'=>$data['project_version'],
         ]);
     }
 
@@ -347,4 +358,5 @@ class MeroBug
 
         return Cache::put($exceptionString, $exceptionString, config('merobug.sleep'));
     }
+   
 }
