@@ -321,7 +321,6 @@ class MeroBug
             'file'=>$data['file'],
             'class'=>$data['class'],
             'release'=>$data['release'],
-            'request'=>$data['request'],
             'storage'=>json_encode($data['storage']),
             'executor'=>json_encode($data['executor']),
             'project_version'=>$data['project_version'],
