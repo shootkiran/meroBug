@@ -164,6 +164,7 @@ class MeroBug
         ];
 
         $data['storage'] = array_filter($data['storage']);
+        $data['request'] = request()->all();
 
         $count = config('merobug.lines_count');
 
@@ -321,6 +322,7 @@ class MeroBug
             'file'=>$data['file'],
             'class'=>$data['class'],
             'release'=>$data['release'],
+            'request'=>$data['request'],
             'storage'=>json_encode($data['storage']),
             'executor'=>json_encode($data['executor']),
             'project_version'=>$data['project_version'],
