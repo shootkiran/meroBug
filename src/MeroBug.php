@@ -335,11 +335,6 @@ class MeroBug
         if (function_exists('auth') && (app() instanceof \Illuminate\Foundation\Application && auth()->check())) {
             /** @var \Illuminate\Contracts\Auth\Authenticatable $user */
             $user = auth()->user();
-
-            if ($user instanceof \MeroBug\Concerns\Merobugable) {
-                return $user->toMerobug();
-            }
-
             if ($user instanceof \Illuminate\Database\Eloquent\Model) {
                 return $user->toArray();
             }
