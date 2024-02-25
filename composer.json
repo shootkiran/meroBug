@@ -1,6 +1,6 @@
 {
     "name": "shootkiran/merobug",
-    "description": "Laravel 6.x/7.x/8.x/9.x bug save to database.modified from larabug",
+    "description": "Save Exceptions of Laravel into Database.Inspired by larabug",
     "keywords": [
         "laravel",
         "log",
