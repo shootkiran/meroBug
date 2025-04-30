@@ -141,7 +141,7 @@ class MeroBug
         $data['environment'] = App::environment();
         $data['host'] = Request::server('SERVER_NAME');
         $data['method'] = Request::method();
-        $data['fullUrl'] = Request::fullUrl();
+        $data['fullUrl'] = rtrim(config('app.url'), '/') . Request::getRequestUri();
         $data['exception'] = $exception->getMessage() ?? '-';
         $data['error'] = $exception->getTraceAsString();
         $data['line'] = $exception->getLine();
