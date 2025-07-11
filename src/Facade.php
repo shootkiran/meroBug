@@ -3,7 +3,6 @@
 namespace MeroBug;
 
 use MeroBug\Http\Client;
-use MeroBug\Fakes\MeroBugFake;
 
 /**
  * @method static void assertSent($throwable, $callback = null)
