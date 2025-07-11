@@ -14,16 +14,6 @@ use MeroBug\Fakes\MeroBugFake;
 class Facade extends \Illuminate\Support\Facades\Facade
 {
     /**
-     * Replace the bound instance with a fake.
-     *
-     * @return void
-     */
-    public static function fake()
-    {
-        static::swap(new MeroBugFake());
-    }
-
-    /**
      * Get the registered name of the component.
      *
      * @return string
