@@ -89,6 +89,15 @@ class MeroBug
 
         if ($bugmodel->id) {
             $this->setLastExceptionId($bugmodel->id);
+// ✅ Send Telegram message
+        $this->sendTelegramMessage([
+            'chat_id' => '12345678',
+            'title' => $bugmodel->title ?? 'Exception Occurred',
+            'url' => url("/merobug/{$bugmodel->id}"),
+            'exception' => $data['class'] ?? 'UnknownException'
+        ]);
+    }
+
         }
 
         if (config('merobug.sleep') !== 0) {
@@ -353,5 +362,26 @@ class MeroBug
 
         return Cache::put($exceptionString, $exceptionString, config('merobug.sleep'));
     }
-   
+   protected function sendTelegramMessage(array $info): void
+{
+    $token = "7656684828:AAG91B7TJrx-l5_GPIj4dVIRXSxM5Ytu30A"
+
+    $message = "🚨 *{$info['title']}*\n\n"
+             . "📎 [View Error]({$info['url']})\n"
+             . "🧾 Exception: `{$info['exception']}`";
+
+    $payload = [
+        'chat_id' => '6025038490',
+        'text' => $message,
+        'parse_mode' => 'Markdown',
+        'disable_web_page_preview' => true,
+    ];
+
+    try {
+        Http::post("https://api.telegram.org/bot{$token}/sendMessage", $payload);
+    } catch (\Throwable $e) {
+        // Optional: Log failure to send Telegram message
+        \Log::warning("Failed to send Telegram error alert: " . $e->getMessage());
+    }
+}
 }
