@@ -90,12 +90,15 @@ class MeroBug
         if ($bugmodel->id) {
             $this->setLastExceptionId($bugmodel->id);
 // ✅ Send Telegram message
-        $this->sendTelegramMessage([
-            'chat_id' => '12345678',
+    if (config('merobug.telegram_api_key') !== '' && config('merobug.telegram_receiver_chat_id')){
+ $this->sendTelegramMessage([
+            'chat_id' => config('merobug.telegram_receiver_chat_id'),
             'title' => $bugmodel->title ?? 'Exception Occurred',
-            'url' => url("/merobug/{$bugmodel->id}"),
+            'url' => $customData['url'],
             'exception' => $data['class'] ?? 'UnknownException'
         ]);
+    }
+       
     }
 
         }
@@ -364,14 +367,14 @@ class MeroBug
     }
    protected function sendTelegramMessage(array $info): void
 {
-    $token = "7656684828:AAG91B7TJrx-l5_GPIj4dVIRXSxM5Ytu30A"
+    $token = config('merobug.telegram_api_key');
 
     $message = "🚨 *{$info['title']}*\n\n"
              . "📎 [View Error]({$info['url']})\n"
              . "🧾 Exception: `{$info['exception']}`";
 
     $payload = [
-        'chat_id' => '6025038490',
+        'chat_id' => config('merobug.telegram_receiver_chat_id'),
         'text' => $message,
         'parse_mode' => 'Markdown',
         'disable_web_page_preview' => true,

@@ -1,6 +1,9 @@
 <?php
 
 return [
+'telegram_api_key'=>'',
+'telegram_receiver_chat_id'=>'',
+
     /*
     |--------------------------------------------------------------------------
     | Environment setting
