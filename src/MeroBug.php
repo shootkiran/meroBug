@@ -88,16 +88,18 @@ class MeroBug
 
         $bugmodel = $this->logError($data);
 
-        $this->sendTelegramMessage([
-            'chat_id' => config('merobug.telegram_receiver_chat_id'),
-            'title' =>  'Exception Occurred',
-            'url' =>  rtrim(config('app.url')) .'/advanced/issues/'.$bugmodel->id,
-            'exception' => $data['exception']
-        ]);
+
+
 
         if ($bugmodel->id) {
             $this->setLastExceptionId($bugmodel->id);
             if (config('merobug.telegram_api_key') !== '' && config('merobug.telegram_receiver_chat_id')) {
+                $this->sendTelegramMessage([
+                    'chat_id' => config('merobug.telegram_receiver_chat_id'),
+                    'title' =>  'Exception Occurred',
+                    'url' =>  rtrim(config('app.url')) . '/advanced/issues/' . $bugmodel->id,
+                    'exception' => $data['exception']
+                ]);
             }
         }
 
@@ -367,9 +369,9 @@ class MeroBug
     {
         $token = config('merobug.telegram_api_key');
 
-        $message = "🚨 *{$info['title']}*\n\n"
-        . "📎 [View Error]({$info['url']})\n"
-        . "🧾 Exception: `{$info['exception']}`";
+        $message = "🚨 *{$info['title']}* " . config('app.url') . "\n\n"
+            . "📎 [View Error]({$info['url']})\n"
+            . "🧾 Exception: `{$info['exception']}`";
 
         $payload = [
             'chat_id' => config('merobug.telegram_receiver_chat_id'),
