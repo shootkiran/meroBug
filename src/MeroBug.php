@@ -89,18 +89,15 @@ class MeroBug
 
         if ($bugmodel->id) {
             $this->setLastExceptionId($bugmodel->id);
-// ✅ Send Telegram message
-    if (config('merobug.telegram_api_key') !== '' && config('merobug.telegram_receiver_chat_id')){
- $this->sendTelegramMessage([
-            'chat_id' => config('merobug.telegram_receiver_chat_id'),
-            'title' => $bugmodel->title ?? 'Exception Occurred',
-            'url' => $customData['url'],
-            'exception' => $data['class'] ?? 'UnknownException'
-        ]);
-    }
-       
-    }
-
+            // ✅ Send Telegram message
+            if (config('merobug.telegram_api_key') !== '' && config('merobug.telegram_receiver_chat_id')) {
+                $this->sendTelegramMessage([
+                    'chat_id' => config('merobug.telegram_receiver_chat_id'),
+                    'title' => $bugmodel->title ?? 'Exception Occurred',
+                    'url' => $customData['url'],
+                    'exception' => $data['class'] ?? 'UnknownException'
+                ]);
+            }
         }
 
         if (config('merobug.sleep') !== 0) {
@@ -323,19 +320,19 @@ class MeroBug
     {
         return MeroBugModel::create([
             'user' => json_encode($this->getUser()),
-            'environment'=>$data['environment'],
-            'host'=>$data['host'],
-            'method'=>$data['method'],
-            'fullUrl'=>$data['fullUrl'],
-            'exception'=>$data['exception'],
-            'error'=>$data['error'],
-            'line'=>$data['line'],
-            'file'=>$data['file'],
-            'class'=>$data['class'],
-            'release'=>$data['release'],
-            'storage'=>json_encode($data['storage']),
-            'executor'=>json_encode($data['executor']),
-            'project_version'=>$data['project_version'],
+            'environment' => $data['environment'],
+            'host' => $data['host'],
+            'method' => $data['method'],
+            'fullUrl' => $data['fullUrl'],
+            'exception' => $data['exception'],
+            'error' => $data['error'],
+            'line' => $data['line'],
+            'file' => $data['file'],
+            'class' => $data['class'],
+            'release' => $data['release'],
+            'storage' => json_encode($data['storage']),
+            'executor' => json_encode($data['executor']),
+            'project_version' => $data['project_version'],
         ]);
     }
 
@@ -365,26 +362,26 @@ class MeroBug
 
         return Cache::put($exceptionString, $exceptionString, config('merobug.sleep'));
     }
-   protected function sendTelegramMessage(array $info): void
-{
-    $token = config('merobug.telegram_api_key');
+    protected function sendTelegramMessage(array $info): void
+    {
+        $token = config('merobug.telegram_api_key');
 
-    $message = "🚨 *{$info['title']}*\n\n"
-             . "📎 [View Error]({$info['url']})\n"
-             . "🧾 Exception: `{$info['exception']}`";
+        $message = "🚨 *{$info['title']}*\n\n"
+            . "📎 [View Error]({$info['url']})\n"
+            . "🧾 Exception: `{$info['exception']}`";
 
-    $payload = [
-        'chat_id' => config('merobug.telegram_receiver_chat_id'),
-        'text' => $message,
-        'parse_mode' => 'Markdown',
-        'disable_web_page_preview' => true,
-    ];
+        $payload = [
+            'chat_id' => config('merobug.telegram_receiver_chat_id'),
+            'text' => $message,
+            'parse_mode' => 'Markdown',
+            'disable_web_page_preview' => true,
+        ];
 
-    try {
-        Http::post("https://api.telegram.org/bot{$token}/sendMessage", $payload);
-    } catch (\Throwable $e) {
-        // Optional: Log failure to send Telegram message
-        \Log::warning("Failed to send Telegram error alert: " . $e->getMessage());
+        try {
+            Http::post("https://api.telegram.org/bot{$token}/sendMessage", $payload);
+        } catch (\Throwable $e) {
+            // Optional: Log failure to send Telegram message
+            \Log::warning("Failed to send Telegram error alert: " . $e->getMessage());
+        }
     }
-}
 }
