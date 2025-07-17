@@ -4,12 +4,13 @@ namespace MeroBug;
 
 use Throwable;
 use Illuminate\Support\Str;
+use MeroBug\Models\MeroBugModel;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Session;
-use MeroBug\Models\MeroBugModel;
 
 class MeroBug
 {
@@ -87,16 +88,16 @@ class MeroBug
 
         $bugmodel = $this->logError($data);
 
+        $this->sendTelegramMessage([
+            'chat_id' => config('merobug.telegram_receiver_chat_id'),
+            'title' =>  'Exception Occurred',
+            'url' =>  rtrim(config('app.url')) .'/advanced/issues/'.$bugmodel->id,
+            'exception' => $data['exception']
+        ]);
+
         if ($bugmodel->id) {
             $this->setLastExceptionId($bugmodel->id);
-            // ✅ Send Telegram message
             if (config('merobug.telegram_api_key') !== '' && config('merobug.telegram_receiver_chat_id')) {
-                $this->sendTelegramMessage([
-                    'chat_id' => config('merobug.telegram_receiver_chat_id'),
-                    'title' => $bugmodel->title ?? 'Exception Occurred',
-                    'url' => $customData['url'],
-                    'exception' => $data['class'] ?? 'UnknownException'
-                ]);
             }
         }
 
@@ -367,8 +368,8 @@ class MeroBug
         $token = config('merobug.telegram_api_key');
 
         $message = "🚨 *{$info['title']}*\n\n"
-            . "📎 [View Error]({$info['url']})\n"
-            . "🧾 Exception: `{$info['exception']}`";
+        . "📎 [View Error]({$info['url']})\n"
+        . "🧾 Exception: `{$info['exception']}`";
 
         $payload = [
             'chat_id' => config('merobug.telegram_receiver_chat_id'),
@@ -381,7 +382,7 @@ class MeroBug
             Http::post("https://api.telegram.org/bot{$token}/sendMessage", $payload);
         } catch (\Throwable $e) {
             // Optional: Log failure to send Telegram message
-            \Log::warning("Failed to send Telegram error alert: " . $e->getMessage());
+            // \Log::warning("Failed to send Telegram error alert: " . $e->getMessage());
         }
     }
 }
